@@ -1,28 +1,38 @@
-import React, { Component } from 'react';
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Color from './Color.js';
+import { connect } from 'react-redux';
+import Buttons from './Buttons';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+let App = (props) =>(
+  <div className="App">
+    <div style={{backgroundColor: "black", color: "white", textAlign: 'center', padding: '30px'}}>
+      <h1>Color Generator</h1>
+    </div>
+    <hr />
+    <div className="proposed">
+      <h3>Do you want this color?</h3>
+      <Color hex={props.proposedColor}/>
+    </div>
+    <hr />
+    <Buttons foo="bar"/>
+    <div className="palette">
+      {props.palette.map((hex, i) => <Color key={i} hex={hex} />)} 
+    </div>
+  </div>
+);
+
+let mapStateToProps = (state) => {
+  return {
+    proposedColor: state.proposedColor,
+    palette: state.palette
   }
 }
 
-export default App;
+
+
+export default connect(
+  mapStateToProps,
+  null
+)(App);
